@@ -199,9 +199,8 @@ export default {
 						card.name = data.cardName
 						card.desc = data.dest
 						await env.DB.prepare(
-							"INSERT INTO multi_language_card (id, cid, name, desc, language) VALUES (?, 0, ?, ?, 'cn');"
-						)
-							.bind(card.id, card.name, card.desc)
+							"INSERT INTO multi_language_card (id, cid, name, desc, language) VALUES (?, 0, ?, ?, 'cn')"
+						).bind(card.id, card.name, card.desc).run()
 
 					}
 
