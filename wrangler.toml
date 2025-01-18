@@ -1,0 +1,7 @@
+name = "card_porxy"
+main = "src/index.js"
+compatibility_date = "2025-01-16"
+[[d1_databases]]
+binding = "DB"
+database_name = "yu-gi-oh"
+database_id = "31d58c22-5a5a-4e31-8121-249d9fd62d37"
