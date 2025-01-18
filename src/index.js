@@ -3,12 +3,13 @@ export default {
 		// 解析请求的URL和查询参数
 		const url = new URL(request.url);
 		const queryParams = new URLSearchParams(url.search);
+		const supportLanguage = ['cn']
 
 		// 检查language参数是否为cn
 		const language = queryParams.get('language').toLowerCase();
 
 
-		if (language === 'cn') {
+		if (supportLanguage.includes(language)) {
 			queryParams.delete('language'); // 移除language参数
 		}
 
@@ -26,7 +27,7 @@ export default {
 			const data = await response.json();
 
 			// 如果language不是cn，直接返回数据
-			if (language !== 'cn') {
+			if (!supportLanguage.includes(language)) {
 				return new Response(JSON.stringify(data), {
 					headers: { 'Content-Type': 'application/json' },
 				});
@@ -38,7 +39,7 @@ export default {
 					const dbResult = await env.DB.prepare(
 						'SELECT name, desc FROM multi_language_card WHERE id = ? AND language = ?'
 					)
-						.bind(card.id, 'cn')
+						.bind(card.id, language)
 						.first();
 
 					if (dbResult) {
