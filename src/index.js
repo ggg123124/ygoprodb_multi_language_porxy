@@ -175,18 +175,21 @@ export default {
 						card.name = dbResult.name; // 替换name
 						card.desc = dbResult.desc; // 替换desc
 						let changeType = []
-						for (let typeline of card.typeline) {
-							let newType = typeData[typeline][language]
-							if (typeline == null) {
-								changeType.push(typeline)
-							} else {
-								changeType.push(newType)
+						if ("typeline" in card) {
+							for (let typeline of card.typeline) {
+								let newType = typeData[typeline][language]
+								if (typeline == null) {
+									changeType.push(typeline)
+								} else {
+									changeType.push(newType)
+								}
+
 							}
 
-						}
-						if (card.typeline != null) {
 							card.typeline = changeType
 						}
+
+
 
 					} else {
 
