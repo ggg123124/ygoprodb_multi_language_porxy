@@ -5,7 +5,7 @@ export default {
 		const queryParams = new URLSearchParams(url.search);
 
 		// 检查language参数是否为cn
-		const language = queryParams.get('language');
+		const language = queryParams.get('language').toLowerCase();
 
 
 		if (language === 'cn') {
