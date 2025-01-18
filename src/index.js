@@ -1,5 +1,131 @@
 export default {
 	async fetch(request, env, ctx) {
+		let typeData = {
+			"Aqua": {
+				"cn": "水族"
+			},
+			"Beast": {
+				"cn": "兽族"
+			},
+			"Beast-warrior": {
+				"cn": "兽战士族"
+			},
+			"Creator-god": {
+				"cn": "创造神"
+			},
+			"Cyberse": {
+				"cn": "电子界族"
+			},
+			"Dinosaur": {
+				"cn": "恐龙族"
+			},
+			"Divine-Beast": {
+				"cn": "幻神兽族"
+			},
+			"Dragon": {
+				"cn": "龙族"
+			},
+			"Fairy": {
+				"cn": "天使族"
+			},
+			"Fiend": {
+				"cn": "恶魔族"
+			},
+			"Fish": {
+				"cn": "鱼族"
+			},
+			"Insect": {
+				"cn": "昆虫族"
+			},
+			"Machine": {
+				"cn": "机械族"
+			},
+			"Plant": {
+				"cn": "植物族"
+			},
+			"Psychic": {
+				"cn": "念动力族"
+			},
+			"Pyro": {
+				"cn": "炎族"
+			},
+			"Reptile": {
+				"cn": "爬虫类族"
+			},
+			"Rock": {
+				"cn": "岩石族"
+			},
+			"Sea Serpent": {
+				"cn": "海龙族"
+			},
+			"Spellcaster": {
+				"cn": "魔法使族"
+			},
+			"Thunder": {
+				"cn": "雷族"
+			},
+			"Warrior": {
+				"cn": "战士族"
+			},
+			"Winged Beast": {
+				"cn": "鸟兽族"
+			},
+			"Wyrm": {
+				"cn": "幻龙族"
+			},
+			"Zombie": {
+				"cn": "不死族"
+			}, "Tuner": {
+				"cn": "调整"
+			},
+			"Gemini": {
+				"cn": "二重"
+			},
+			"Flip": {
+				"cn": "反转"
+			},
+			"Toon": {
+				"cn": "卡通"
+			},
+			"Spirit": {
+				"cn": "灵魂"
+			},
+			"Union": {
+				"cn": "同盟"
+			},
+			"Special Summon": {
+				"cn": "特殊召唤"
+			}, "Normal": {
+				"cn": "通常"
+			},
+			"Effect": {
+				"cn": "效果"
+			},
+			"Fusion": {
+				"cn": "融合"
+			},
+			"Ritual": {
+				"cn": "仪式"
+			},
+			"Synchro": {
+				"cn": "同调"
+			},
+			"Xyz": {
+				"cn": "超量"
+			},
+			"Pendulum": {
+				"cn": "灵摆"
+			},
+			"Link": {
+				"cn": "连接"
+			},
+			"Token": {
+				"cn": "衍生物"
+			}
+		}
+
+
+
 		// 解析请求的URL和查询参数
 		const url = new URL(request.url);
 		const queryParams = new URLSearchParams(url.search);
@@ -7,7 +133,7 @@ export default {
 
 		// 检查language参数是否为cn
 		let language = queryParams.get('language');
-		if (language != null){
+		if (language != null) {
 			language = language.toLowerCase();
 		}
 
@@ -48,7 +174,19 @@ export default {
 					if (dbResult) {
 						card.name = dbResult.name; // 替换name
 						card.desc = dbResult.desc; // 替换desc
+						let changeType = []
+						for (let typeline of card.typeline) {
+							let newType = typeData[typeline][language]
+							if (typeline == null) {
+								changeType.push(typeline)
+							} else {
+								changeType.push(newType)
+							}
+
+						}
+						card.typeline = changeType
 					}
+
 				}
 			}
 
