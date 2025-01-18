@@ -184,7 +184,13 @@ export default {
 							}
 
 						}
-						card.typeline = changeType
+						if (card.typeline != null) {
+							card.typeline = changeType
+						}
+
+					} else {
+
+						this.fetchAndExtractCardInfo(card.id, request)
 					}
 
 				}
@@ -201,4 +207,67 @@ export default {
 			});
 		}
 	},
+	async fetchAndExtractCardInfo(searchParam, request) {
+
+		// 构建请求的 URL
+		const url = `https://ygocdb.com/?search=${encodeURIComponent(searchParam)}`;
+
+		try {
+			// 发起请求获取 HTML 内容
+			const response = await fetch(url, { headers: request.headers, });
+			console.log("断言2")
+
+
+
+			if (!response.ok) {
+				throw new Error(`请求失败，状态码: ${response.status}`);
+			}
+
+			// 获取 HTML 文本
+			const htmlString = await response.text();
+
+			// 创建一个临时的 div 元素来解析 HTML 字符串
+			const tempDiv = document.createElement('div');
+			tempDiv.innerHTML = htmlString;
+
+			// 找到目标 div
+			const descDiv = tempDiv.querySelector('.desc');
+			if (!descDiv) {
+				throw new Error('未找到 .desc 元素');
+			}
+
+			// 提取卡片名称
+			const cardNameElement = descDiv.querySelector('strong.name span');
+
+			if (!cardNameElement) {
+				throw new Error('未找到卡片名称元素');
+			}
+			const cardName = cardNameElement.textContent.trim();
+
+			// 提取 <hr> 标签下的所有文字
+			const hrElement = descDiv.querySelector('hr');
+			if (!hrElement) {
+				throw new Error('未找到 <hr> 元素');
+			}
+
+			// 获取 <hr> 标签后的所有文本内容
+			let textAfterHr = '';
+			let currentNode = hrElement.nextSibling;
+			while (currentNode) {
+				if (currentNode.nodeType === Node.TEXT_NODE) {
+					textAfterHr += currentNode.textContent.trim() + ' ';
+				}
+				currentNode = currentNode.nextSibling;
+			}
+
+			// 返回提取的信息
+			return {
+				cardName: cardName,
+				textAfterHr: textAfterHr.trim()
+			};
+		} catch (error) {
+			console.log('发生错误:', error);
+			return null;
+		}
+	}
 };
