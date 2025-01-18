@@ -6,7 +6,7 @@ export default {
 		const supportLanguage = ['cn']
 
 		// 检查language参数是否为cn
-		const language = queryParams.get('language');
+		let language = queryParams.get('language');
 		if (language != null){
 			language = language.toLowerCase();
 		}
