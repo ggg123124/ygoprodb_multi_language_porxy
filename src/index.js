@@ -162,9 +162,11 @@ export default {
 				});
 			}
 
+
 			// 如果language是cn，遍历data数组，查询数据库并替换name和desc
 			if (data.data && Array.isArray(data.data)) {
 				for (const card of data.data) {
+					console.log(data)
 					const dbResult = await env.DB.prepare(
 						'SELECT name, desc FROM multi_language_card WHERE id = ? AND language = ?'
 					)
@@ -193,7 +195,14 @@ export default {
 
 					} else {
 
-						this.fetchAndExtractCardInfo(card.id, request)
+						let data = await this.fetchAndExtractCardInfo(card.id, request)
+						card.name = data.cardName
+						card.desc = data.dest
+						await env.DB.prepare(
+							"INSERT INTO multi_language_card (id, cid, name, desc, language) VALUES (?, 0, ?, ?, 'cn');"
+						)
+							.bind(card.id, card.name, card.desc)
+
 					}
 
 				}
@@ -213,12 +222,16 @@ export default {
 	async fetchAndExtractCardInfo(searchParam, request) {
 
 		// 构建请求的 URL
-		const url = `https://ygocdb.com/?search=${encodeURIComponent(searchParam)}`;
-
+		const url = `https://ygocdb.com/card/${encodeURIComponent(searchParam)}`;
+		let cardName;
+		let dest
 		try {
 			// 发起请求获取 HTML 内容
-			const response = await fetch(url, { headers: request.headers, });
-			console.log("断言2")
+
+			const response = await fetch(url, {
+				headers: request.headers,
+			});
+			console.log("断言3")
 
 
 
@@ -228,45 +241,29 @@ export default {
 
 			// 获取 HTML 文本
 			const htmlString = await response.text();
+			const pattern = /<h2><span lang="zh-Hans">(.*?)<\/span>/;
+			const match = htmlString.match(pattern);
 
-			// 创建一个临时的 div 元素来解析 HTML 字符串
-			const tempDiv = document.createElement('div');
-			tempDiv.innerHTML = htmlString;
-
-			// 找到目标 div
-			const descDiv = tempDiv.querySelector('.desc');
-			if (!descDiv) {
-				throw new Error('未找到 .desc 元素');
+			if (match) {
+				cardName = match[1]
+				console.log(match[1]); // 输出: 篝火
 			}
 
-			// 提取卡片名称
-			const cardNameElement = descDiv.querySelector('strong.name span');
-
-			if (!cardNameElement) {
-				throw new Error('未找到卡片名称元素');
-			}
-			const cardName = cardNameElement.textContent.trim();
-
-			// 提取 <hr> 标签下的所有文字
-			const hrElement = descDiv.querySelector('hr');
-			if (!hrElement) {
-				throw new Error('未找到 <hr> 元素');
+			const destPattern = /<div class="desc" lang="zh-Hans">[\s\S]*?<hr>([\s\S]*?)<\/div>/;
+			const destMatch = htmlString.match(destPattern);
+			if (destMatch) {
+				dest = destMatch[1].trim().replaceAll("<br>", "\n\r")
+				console.log(destMatch[1].trim().replaceAll("<br>", "\n\r")); // 输出匹配到的内容
 			}
 
-			// 获取 <hr> 标签后的所有文本内容
-			let textAfterHr = '';
-			let currentNode = hrElement.nextSibling;
-			while (currentNode) {
-				if (currentNode.nodeType === Node.TEXT_NODE) {
-					textAfterHr += currentNode.textContent.trim() + ' ';
-				}
-				currentNode = currentNode.nextSibling;
-			}
+
+
+			// console.log(htmlString)
 
 			// 返回提取的信息
 			return {
 				cardName: cardName,
-				textAfterHr: textAfterHr.trim()
+				dest: dest
 			};
 		} catch (error) {
 			console.log('发生错误:', error);
