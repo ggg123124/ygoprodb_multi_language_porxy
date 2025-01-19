@@ -176,23 +176,6 @@ export default {
 					if (dbResult) {
 						card.name = dbResult.name; // 替换name
 						card.desc = dbResult.desc; // 替换desc
-						let changeType = []
-						if ("typeline" in card) {
-							for (let typeline of card.typeline) {
-								let newType = typeData[typeline][language]
-								if (typeline == null) {
-									changeType.push(typeline)
-								} else {
-									changeType.push(newType)
-								}
-
-							}
-
-							card.typeline = changeType
-						}
-
-
-
 					} else {
 
 						let data = await this.fetchAndExtractCardInfo(card.id, request)
@@ -202,6 +185,20 @@ export default {
 							"INSERT INTO multi_language_card (id, cid, name, desc, language) VALUES (?, 0, ?, ?, 'cn')"
 						).bind(card.id, card.name, card.desc).run()
 
+					}
+					let changeType = []
+					if ("typeline" in card) {
+						for (let typeline of card.typeline) {
+							let newType = typeData[typeline][language]
+							if (typeline == null) {
+								changeType.push(typeline)
+							} else {
+								changeType.push(newType)
+							}
+
+						}
+
+						card.typeline = changeType
 					}
 
 				}
