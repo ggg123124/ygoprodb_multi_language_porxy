@@ -252,7 +252,10 @@ export default {
 			const destMatch = htmlString.match(destPattern);
 			if (destMatch) {
 				dest = destMatch[1].trim().replaceAll("<br>", "\n\r")
-				console.log(destMatch[1].trim().replaceAll("<br>", "\n\r")); // 输出匹配到的内容
+				dest = dest.replaceAll('<hr>',"")
+				dest = dest.replaceAll(/<a.*?>/g,"")
+				dest = dest.replaceAll(/<.*?a>/g,"")
+				console.log(dest); // 输出匹配到的内容
 			}
 
 
