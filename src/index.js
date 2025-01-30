@@ -189,7 +189,7 @@ export default {
 
 						}
 						// console.log(data)
-						if (data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
+						if (data!=null&&data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
 							card.name = data.cardName
 							card.desc = data.dest
 							await env.DB.prepare(
