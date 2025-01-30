@@ -168,7 +168,7 @@ export default {
 				for (const card of data.data) {
 
 					const dbResult = await env.DB.prepare(
-						'SELECT name, desc FROM multi_language_card WHERE id = ? AND language = ?'
+						'SELECT name, desc FROM multi_language_card_v2 WHERE card_id = ? AND language = ?'
 					)
 						.bind(card.id, language)
 						.first();
