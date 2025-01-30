@@ -183,13 +183,19 @@ export default {
 						if (language === 'cn') {
 							data = await this.fetchAndExtractCardInfo(card.id, request)
 						} else {
+							if (card.misc_info[0].konami_id == null) {
+								
+								let test = await this.fetchAndExtractCardInfo(card.id, request)
+								card.misc_info[0].konami_id = test.konamiId
+							
+							}
 							if (card.misc_info[0].konami_id != null) {
 								data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, language)
 							}
 
 						}
 						// console.log(data)
-						if (data!=null&&data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
+						if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
 							card.name = data.cardName
 							card.desc = data.dest
 							await env.DB.prepare(
@@ -240,6 +246,7 @@ export default {
 		// 构建请求的 URL
 		const url = `https://ygocdb.com/card/${encodeURIComponent(searchParam)}`;
 		let cardName;
+		let konamiId
 		let dest
 		try {
 			// 发起请求获取 HTML 内容
@@ -258,6 +265,13 @@ export default {
 			// 获取 HTML 文本
 			const htmlString = await response.text();
 			const pattern = /<h2><span lang="zh-Hans">(.*?)<\/span>/;
+			const konamiIdPattern = /<span class="cid text-muted" title="数据库编号">(.*?)<\/span>/
+			const konamiIdMatch = htmlString.match(konamiIdPattern)
+			if (konamiIdMatch) {
+				konamiId = konamiIdMatch[1]
+				console.log(konamiId); // 输出: 篝火
+			}
+
 			const match = htmlString.match(pattern);
 
 			if (match) {
@@ -282,7 +296,8 @@ export default {
 			// 返回提取的信息
 			return {
 				cardName: cardName,
-				dest: dest
+				dest: dest,
+				konamiId: konamiId
 			};
 		} catch (error) {
 			console.log('发生错误:', error);
