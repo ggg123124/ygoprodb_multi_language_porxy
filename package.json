@@ -10,5 +10,9 @@
     "start": "wrangler dev",
     "deploy": "wrangler deploy",
     "test": "jest"
+  },
+  "dependencies": {
+    "jsdom": "^26.0.0",
+    "node-fetch": "^3.3.2"
   }
 }

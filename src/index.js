@@ -129,7 +129,7 @@ export default {
 		// 解析请求的URL和查询参数
 		const url = new URL(request.url);
 		const queryParams = new URLSearchParams(url.search);
-		const supportLanguage = ['cn']
+		const supportLanguage = ['cn', 'ja', 'ko']
 
 		// 检查language参数是否为cn
 		let language = queryParams.get('language');
@@ -166,7 +166,7 @@ export default {
 			// 如果language是cn，遍历data数组，查询数据库并替换name和desc
 			if (data.data && Array.isArray(data.data)) {
 				for (const card of data.data) {
-					console.log(data)
+
 					const dbResult = await env.DB.prepare(
 						'SELECT name, desc FROM multi_language_card WHERE id = ? AND language = ?'
 					)
@@ -179,26 +179,37 @@ export default {
 					}
 					//如果数据库里没数据的话
 					else {
+						let data = null
+						if (language === 'cn') {
+							data = await this.fetchAndExtractCardInfo(card.id, request)
+						} else {
+							if (card.misc_info[0].konami_id != null) {
+								data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, language)
+							}
 
-						let data = await this.fetchAndExtractCardInfo(card.id, request)
-						card.name = data.cardName
-						card.desc = data.dest
-						await env.DB.prepare(
-							"INSERT INTO multi_language_card (id, cid, name, desc, language) VALUES (?, 0, ?, ?, 'cn')"
-						).bind(card.id, card.name, card.desc).run()
+						}
+						// console.log(data)
+						if (data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
+							card.name = data.cardName
+							card.desc = data.dest
+							await env.DB.prepare(
+								"INSERT INTO multi_language_card_v2 ( card_id, name, desc, language) VALUES (?, ?, ?, ?)"
+							).bind(card.id, card.name, card.desc, language).run()
+						}
+
 
 					}
 					let changeType = []
 					if ("typeline" in card) {
 						for (let typeline of card.typeline) {
-							if (typeline ==="Pendulum"){
+							if (typeline === "Pendulum") {
 								card.pend_desc = card.desc.split('\r\n\r\n')[0]
 								card.monster_desc = card.desc.split('\r\n\r\n')[1]
 							}
 
 
 							let newType = typeData[typeline][language]
-							if (typeline == null) {
+							if (newType == null) {
 								changeType.push(typeline)
 							} else {
 								changeType.push(newType)
@@ -222,6 +233,7 @@ export default {
 				status: 500,
 			});
 		}
+
 	},
 	async fetchAndExtractCardInfo(searchParam, request) {
 
@@ -257,10 +269,10 @@ export default {
 			const destMatch = htmlString.match(destPattern);
 			if (destMatch) {
 				dest = destMatch[1].trim().replaceAll("<br>", "\n\r")
-				dest = dest.replaceAll('<hr>',"")
-				dest = dest.replaceAll(/<a.*?>/g,"")
-				dest = dest.replaceAll(/<.*?a>/g,"")
-				console.log(dest); // 输出匹配到的内容
+				dest = dest.replaceAll('<hr>', "")
+				dest = dest.replaceAll(/<a.*?>/g, "")
+				dest = dest.replaceAll(/<.*?a>/g, "")
+				// console.log(dest); // 输出匹配到的内容
 			}
 
 
@@ -275,6 +287,85 @@ export default {
 		} catch (error) {
 			console.log('发生错误:', error);
 			return null;
+		}
+	},
+
+	async fetchAndProcessCardText(cid, request_locale = 'ja') {
+		console.log(cid)
+		const targetUrl = `https://www.db.yugioh-card.com/yugiohdb/card_search.action?ope=2&cid=${cid}&request_locale=${request_locale}`;
+
+		try {
+			const response = await fetch(targetUrl);
+			const html = await response.text();
+
+			// 改进后的正则表达式
+			const extractor = {
+				// 匹配 pen_effect 部分（含嵌套结构）
+				part1: /<div class="frame pen_effect">[\s\S]*?<div class="item_box_text">([\s\S]*?)<\/div>/i,
+
+				// 匹配 CardText 部分（跳过text_title）
+				part2: /<div class="CardText">[\s\S]*?<div class="item_box_text">[\s\S]*?<div class="text_title">[\s\S]*?<\/div>([\s\S]*?)<\/div>/i,
+				part3: /<meta name="keywords"\s+content="([^"]+)"\s*\/?>/i
+
+			};
+
+			// 增强版内容提取函数
+			const extractContent = (regex) => {
+				const match = html.match(regex);
+				if (!match) return '';
+
+				// 清理内容：去除HTML标签、压缩空白、处理特殊符号
+				return match[1]
+					.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '')  // 移除所有HTML标签
+					.replace(/\s+/g, ' ')       // 压缩连续空白
+					.replace(/&nbsp;/g, ' ')    // 处理空格实体
+					.trim();
+			};
+
+			// 提取两部分内容
+			const [part1, part2] = [
+				extractContent(extractor.part1),
+				extractContent(extractor.part2)
+			];
+
+			// 最终格式处理
+			const formatText = (text) =>
+				text.replace(/<br\s*\/?>/gi, '\r\n')  // 保留已有的换行处理
+					.replace(/(\r\n)+/g, '\r\n');     // 合并连续换行
+
+			let combinedText;
+			if (part1 && part2) {
+				combinedText = [formatText(part1), formatText(part2)].join('\r\n\r\n');
+			} else if (part1 || part2) {  // 如果只有一个有值
+				combinedText = formatText(part1 || part2);
+			} else {
+				combinedText = ''; // 如果两者都没有数据
+			}
+
+			const pattern = /<meta name="keywords"\s+content="([^"]+)"\s*\/?>/i;
+			const match = pattern.exec(html);
+			let firstKeyword = ""
+			if (match) {
+				// 获取content中的所有内容
+				const contentStr = match[1];
+
+				// 使用逗号分割content内容，并获取第一个子字符串
+				firstKeyword = contentStr.split(',')[0].trim();
+			} else {
+				console.log("没有找到匹配的meta标签。");
+			}
+			console.log(firstKeyword)
+			// console.log('处理后的文本内容：\n');
+			console.log(combinedText);
+			return {
+				cardName: firstKeyword,
+				dest: combinedText
+			};
+
+
+		} catch (error) {
+			console.error('处理错误：', error);
+			throw error;
 		}
 	}
 };
