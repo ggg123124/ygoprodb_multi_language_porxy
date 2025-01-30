@@ -143,7 +143,7 @@ export default {
 		}
 
 		// 构造目标URL
-		const targetUrl = `https://db.ygoprodeck.com/api/v7/cardinfo.php?${queryParams.toString()}`;
+		const targetUrl = `https://db.ygoprodeck.com/api/v7/cardinfo.php?${queryParams.toString()}&misc=yes`;
 
 		try {
 			// 发起请求到目标URL
@@ -176,7 +176,9 @@ export default {
 					if (dbResult) {
 						card.name = dbResult.name; // 替换name
 						card.desc = dbResult.desc; // 替换desc
-					} else {
+					}
+					//如果数据库里没数据的话
+					else {
 
 						let data = await this.fetchAndExtractCardInfo(card.id, request)
 						card.name = data.cardName
@@ -189,6 +191,12 @@ export default {
 					let changeType = []
 					if ("typeline" in card) {
 						for (let typeline of card.typeline) {
+							if (typeline ==="Pendulum"){
+								card.pend_desc = card.desc.split('\r\n\r\n')[0]
+								card.monster_desc = card.desc.split('\r\n\r\n')[1]
+							}
+
+
 							let newType = typeData[typeline][language]
 							if (typeline == null) {
 								changeType.push(typeline)
