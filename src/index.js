@@ -2,125 +2,209 @@ export default {
 	async fetch(request, env, ctx) {
 		let typeData = {
 			"Aqua": {
-				"cn": "水族"
+				"cn": "水族",
+				"ja": "水族",
+				"ko": "물족"
 			},
 			"Beast": {
-				"cn": "兽族"
+				"cn": "兽族",
+				"ja": "獣族",
+				"ko": "야수족"
 			},
 			"Beast-warrior": {
-				"cn": "兽战士族"
+				"cn": "兽战士族",
+				"ja": "獣戦士族",
+				"ko": "야수전사족"
 			},
 			"Creator-god": {
-				"cn": "创造神"
+				"cn": "创造神",
+				"ja": "創造神族",
+				"ko": "창조신족"
 			},
 			"Cyberse": {
-				"cn": "电子界族"
+				"cn": "电子界族",
+				"ja": "サイバース族",
+				"ko": "사이버스족"
 			},
 			"Dinosaur": {
-				"cn": "恐龙族"
+				"cn": "恐龙族",
+				"ja": "恐竜族",
+				"ko": "공룡족"
 			},
 			"Divine-Beast": {
-				"cn": "幻神兽族"
+				"cn": "幻神兽族",
+				"ja": "幻神獣族",
+				"ko": "환신야수족"
 			},
 			"Dragon": {
-				"cn": "龙族"
+				"cn": "龙族",
+				"ja": "ドラゴン族",
+				"ko": "드래곤족"
 			},
 			"Fairy": {
-				"cn": "天使族"
+				"cn": "天使族",
+				"ja": "天使族",
+				"ko": "천사족"
 			},
 			"Fiend": {
-				"cn": "恶魔族"
+				"cn": "恶魔族",
+				"ja": "悪魔族",
+				"ko": "악마족"
 			},
 			"Fish": {
-				"cn": "鱼族"
+				"cn": "鱼族",
+				"ja": "魚族",
+				"ko": "어류족"
 			},
 			"Insect": {
-				"cn": "昆虫族"
+				"cn": "昆虫族",
+				"ja": "昆虫族",
+				"ko": "곤충족"
 			},
 			"Machine": {
-				"cn": "机械族"
+				"cn": "机械族",
+				"ja": "機械族",
+				"ko": "기계족"
 			},
 			"Plant": {
-				"cn": "植物族"
+				"cn": "植物族",
+				"ja": "植物族",
+				"ko": "식물족"
 			},
 			"Psychic": {
-				"cn": "念动力族"
+				"cn": "念动力族",
+				"ja": "サイキック族",
+				"ko": "사이킥족"
 			},
 			"Pyro": {
-				"cn": "炎族"
+				"cn": "炎族",
+				"ja": "炎族",
+				"ko": "화염족"
 			},
 			"Reptile": {
-				"cn": "爬虫类族"
+				"cn": "爬虫类族",
+				"ja": "爬虫類族",
+				"ko": "파충류족"
 			},
 			"Rock": {
-				"cn": "岩石族"
+				"cn": "岩石族",
+				"ja": "岩石族",
+				"ko": "암석족"
 			},
 			"Sea Serpent": {
-				"cn": "海龙族"
+				"cn": "海龙族",
+				"ja": "海竜族",
+				"ko": "해룡족"
 			},
 			"Spellcaster": {
-				"cn": "魔法使族"
+				"cn": "魔法使族",
+				"ja": "魔法使い族",
+				"ko": "마법사족"
 			},
 			"Thunder": {
-				"cn": "雷族"
+				"cn": "雷族",
+				"ja": "雷族",
+				"ko": "번개족"
 			},
 			"Warrior": {
-				"cn": "战士族"
+				"cn": "战士族",
+				"ja": "戦士族",
+				"ko": "전사족"
 			},
 			"Winged Beast": {
-				"cn": "鸟兽族"
+				"cn": "鸟兽族",
+				"ja": "鳥獣族",
+				"ko": "비행야수족"
 			},
 			"Wyrm": {
-				"cn": "幻龙族"
+				"cn": "幻龙族",
+				"ja": "幻竜族",
+				"ko": "환룡족"
 			},
 			"Zombie": {
-				"cn": "不死族"
-			}, "Tuner": {
-				"cn": "调整"
+				"cn": "不死族",
+				"ja": "アンデット族",
+				"ko": "언데드족"
+			},
+			"Tuner": {
+				"cn": "调整",
+				"ja": "チューナー",
+				"ko": "튜너"
+			},
+			"Illusion": {
+				"cn": "幻想魔族",
+				"ja": "幻想魔族",
+				"ko": "환상마족"
 			},
 			"Gemini": {
-				"cn": "二重"
+				"cn": "二重",
+				"ja": "デュアル",
+				"ko": "듀얼"
 			},
 			"Flip": {
-				"cn": "反转"
+				"cn": "反转",
+				"ja": "リバース",
+				"ko": "리버스"
 			},
 			"Toon": {
-				"cn": "卡通"
+				"cn": "卡通",
+				"ja": "トゥーン",
+				"ko": "툰"
 			},
 			"Spirit": {
-				"cn": "灵魂"
+				"cn": "灵魂",
+				"ja": "スピリット",
+				"ko": "스피릿"
 			},
 			"Union": {
-				"cn": "同盟"
+				"cn": "同盟",
+				"ja": "ユニオン",
+				"ko": "유니온"
 			},
 			"Special Summon": {
-				"cn": "特殊召唤"
-			}, "Normal": {
-				"cn": "通常"
+				"cn": "特殊召唤",
+				"ja": "特殊召喚",
+				"ko": "특수 소환"
+			},
+			"Normal": {
+				"cn": "通常",
+				"ja": "通常",
+				"ko": "일반"
 			},
 			"Effect": {
-				"cn": "效果"
+				"cn": "效果",
+				"ja": "効果",
+				"ko": "효과"
 			},
 			"Fusion": {
-				"cn": "融合"
+				"cn": "融合",
+				"ja": "融合",
+				"ko": "융합"
 			},
 			"Ritual": {
-				"cn": "仪式"
+				"cn": "仪式",
+				"ja": "儀式",
+				"ko": "의식"
 			},
 			"Synchro": {
-				"cn": "同调"
+				"cn": "同调",
+				"ja": "シンクロ",
+				"ko": "싱크로"
 			},
 			"Xyz": {
-				"cn": "超量"
+				"cn": "超量",
+				"ja": "エクシーズ",
+				"ko": "엑시즈"
 			},
 			"Pendulum": {
-				"cn": "灵摆"
+				"cn": "灵摆",
+				"ja": "ペンデュラム",
+				"ko": "펜듈럼"
 			},
 			"Link": {
-				"cn": "连接"
-			},
-			"Token": {
-				"cn": "衍生物"
+				"cn": "连接",
+				"ja": "リンク",
+				"ko": "링크"
 			}
 		}
 
@@ -184,10 +268,10 @@ export default {
 							data = await this.fetchAndExtractCardInfo(card.id, request)
 						} else {
 							if (card.misc_info[0].konami_id == null) {
-								
+
 								let test = await this.fetchAndExtractCardInfo(card.id, request)
 								card.misc_info[0].konami_id = test.konamiId
-							
+
 							}
 							if (card.misc_info[0].konami_id != null) {
 								data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, language)
