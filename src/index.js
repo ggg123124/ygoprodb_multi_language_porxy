@@ -665,6 +665,7 @@ export default {
 				console.log("没有找到匹配的meta标签。");
 			}
 			console.log(firstKeyword)
+			firstKeyword = firstKeyword.replaceAll(";nica","")
 			// console.log('处理后的文本内容：\n');
 			console.log(combinedText);
 			return {
