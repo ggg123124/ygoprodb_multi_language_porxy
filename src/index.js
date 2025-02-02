@@ -419,7 +419,7 @@ export default {
 		// 解析请求的URL和查询参数
 		const url = new URL(request.url);
 		const queryParams = new URLSearchParams(url.search);
-		const supportLanguage = ['cn', 'ja', 'ko', 'es']
+		const supportLanguage = ['cn', 'ja', 'ko', 'es', 'de', 'fr', 'it', 'pt']
 
 		// 检查language参数是否为cn
 		let language = queryParams.get('language');
