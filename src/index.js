@@ -292,7 +292,7 @@ export default {
 					let changeType = []
 					if ("typeline" in card) {
 						for (let typeline of card.typeline) {
-							if (typeline === "Pendulum") {
+							if (typeline === "Pendulum" && card.desc.indexOf("\r\n\r\n") != -1) {
 								card.pend_desc = card.desc.split('\r\n\r\n')[0]
 								card.monster_desc = card.desc.split('\r\n\r\n')[1]
 							}
