@@ -4,207 +4,248 @@ export default {
 			"Aqua": {
 				"cn": "水族",
 				"ja": "水族",
-				"ko": "물족"
+				"ko": "물족",
+				"es": "Aqua"
 			},
 			"Beast": {
 				"cn": "兽族",
 				"ja": "獣族",
-				"ko": "야수족"
+				"ko": "야수족",
+				"es": "Bestia"
 			},
 			"Beast-warrior": {
 				"cn": "兽战士族",
 				"ja": "獣戦士族",
-				"ko": "야수전사족"
+				"ko": "야수전사족",
+				"es": "Guerrero-Bestia"
 			},
 			"Creator-god": {
 				"cn": "创造神",
 				"ja": "創造神族",
-				"ko": "창조신족"
+				"ko": "창조신족",
+				"es": "N/A" // 原始列表中没有直接对应项
 			},
 			"Cyberse": {
 				"cn": "电子界族",
 				"ja": "サイバース族",
-				"ko": "사이버스족"
+				"ko": "사이버스족",
+				"es": "Ciberso"
 			},
 			"Dinosaur": {
 				"cn": "恐龙族",
 				"ja": "恐竜族",
-				"ko": "공룡족"
+				"ko": "공룡족",
+				"es": "Dinosaurio"
 			},
 			"Divine-Beast": {
 				"cn": "幻神兽族",
 				"ja": "幻神獣族",
-				"ko": "환신야수족"
+				"ko": "환신야수족",
+				"es": "Bestia Divina"
 			},
 			"Dragon": {
 				"cn": "龙族",
 				"ja": "ドラゴン族",
-				"ko": "드래곤족"
+				"ko": "드래곤족",
+				"es": "Dragón"
 			},
 			"Fairy": {
 				"cn": "天使族",
 				"ja": "天使族",
-				"ko": "천사족"
+				"ko": "천사족",
+				"es": "Hada"
 			},
 			"Fiend": {
 				"cn": "恶魔族",
 				"ja": "悪魔族",
-				"ko": "악마족"
+				"ko": "악마족",
+				"es": "Demonio"
 			},
 			"Fish": {
 				"cn": "鱼族",
 				"ja": "魚族",
-				"ko": "어류족"
+				"ko": "어류족",
+				"es": "Pez"
 			},
 			"Insect": {
 				"cn": "昆虫族",
 				"ja": "昆虫族",
-				"ko": "곤충족"
+				"ko": "곤충족",
+				"es": "Insecto"
 			},
 			"Machine": {
 				"cn": "机械族",
 				"ja": "機械族",
-				"ko": "기계족"
+				"ko": "기계족",
+				"es": "Máquina"
 			},
 			"Plant": {
 				"cn": "植物族",
 				"ja": "植物族",
-				"ko": "식물족"
+				"ko": "식물족",
+				"es": "Planta"
 			},
 			"Psychic": {
 				"cn": "念动力族",
 				"ja": "サイキック族",
-				"ko": "사이킥족"
+				"ko": "사이킥족",
+				"es": "Psíquico"
 			},
 			"Pyro": {
 				"cn": "炎族",
 				"ja": "炎族",
-				"ko": "화염족"
+				"ko": "화염족",
+				"es": "Piro"
 			},
 			"Reptile": {
 				"cn": "爬虫类族",
 				"ja": "爬虫類族",
-				"ko": "파충류족"
+				"ko": "파충류족",
+				"es": "Reptil"
 			},
 			"Rock": {
 				"cn": "岩石族",
 				"ja": "岩石族",
-				"ko": "암석족"
+				"ko": "암석족",
+				"es": "Roca"
 			},
 			"Sea Serpent": {
 				"cn": "海龙族",
 				"ja": "海竜族",
-				"ko": "해룡족"
+				"ko": "해룡족",
+				"es": "Serpiente Marina"
 			},
 			"Spellcaster": {
 				"cn": "魔法使族",
 				"ja": "魔法使い族",
-				"ko": "마법사족"
+				"ko": "마법사족",
+				"es": "Lanzador de Conjuros"
 			},
 			"Thunder": {
 				"cn": "雷族",
 				"ja": "雷族",
-				"ko": "번개족"
+				"ko": "번개족",
+				"es": "Trueno"
 			},
 			"Warrior": {
 				"cn": "战士族",
 				"ja": "戦士族",
-				"ko": "전사족"
+				"ko": "전사족",
+				"es": "Guerrero"
 			},
 			"Winged Beast": {
 				"cn": "鸟兽族",
 				"ja": "鳥獣族",
-				"ko": "비행야수족"
+				"ko": "비행야수족",
+				"es": "Bestia Alada"
 			},
 			"Wyrm": {
 				"cn": "幻龙族",
 				"ja": "幻竜族",
-				"ko": "환룡족"
+				"ko": "환룡족",
+				"es": "Wyrm"
 			},
 			"Zombie": {
 				"cn": "不死族",
 				"ja": "アンデット族",
-				"ko": "언데드족"
+				"ko": "언데드족",
+				"es": "Zombi"
 			},
 			"Tuner": {
 				"cn": "调整",
 				"ja": "チューナー",
-				"ko": "튜너"
+				"ko": "튜너",
+				"es": "Cantante" // 请注意，“Cantante”在原列表中意为“歌手”，这里可能是根据上下文进行了最接近的匹配。
 			},
 			"Illusion": {
 				"cn": "幻想魔族",
 				"ja": "幻想魔族",
-				"ko": "환상마족"
+				"ko": "환상마족",
+				"es": "Ilusión"
 			},
 			"Gemini": {
 				"cn": "二重",
 				"ja": "デュアル",
-				"ko": "듀얼"
+				"ko": "듀얼",
+				"es": "Géminis"
 			},
 			"Flip": {
 				"cn": "反转",
 				"ja": "リバース",
-				"ko": "리버스"
+				"ko": "리버스",
+				"es": "Volteo"
 			},
 			"Toon": {
 				"cn": "卡通",
 				"ja": "トゥーン",
-				"ko": "툰"
+				"ko": "툰",
+				"es": "Toon"
 			},
 			"Spirit": {
 				"cn": "灵魂",
 				"ja": "スピリット",
-				"ko": "스피릿"
+				"ko": "스피릿",
+				"es": "Spirit" // 注意：这与英文相同，可能需要确认是否准确或有对应的西班牙语术语。
 			},
 			"Union": {
 				"cn": "同盟",
 				"ja": "ユニオン",
-				"ko": "유니온"
+				"ko": "유니온",
+				"es": "Unión"
 			},
 			"Special Summon": {
 				"cn": "特殊召唤",
 				"ja": "特殊召喚",
-				"ko": "특수 소환"
+				"ko": "특수 소환",
+				"es": "N/A" // 原始列表中没有直接对应项
 			},
 			"Normal": {
 				"cn": "通常",
 				"ja": "通常",
-				"ko": "일반"
+				"ko": "일반",
+				"es": "Normal"
 			},
 			"Effect": {
 				"cn": "效果",
 				"ja": "効果",
-				"ko": "효과"
+				"ko": "효과",
+				"es": "Efecto"
 			},
 			"Fusion": {
 				"cn": "融合",
 				"ja": "融合",
-				"ko": "융합"
+				"ko": "융합",
+				"es": "Fusión"
 			},
 			"Ritual": {
 				"cn": "仪式",
 				"ja": "儀式",
-				"ko": "의식"
+				"ko": "의식",
+				"es": "Ritual"
 			},
 			"Synchro": {
 				"cn": "同调",
 				"ja": "シンクロ",
-				"ko": "싱크로"
+				"ko": "싱크로",
+				"es": "Sincronía"
 			},
 			"Xyz": {
 				"cn": "超量",
 				"ja": "エクシーズ",
-				"ko": "엑시즈"
+				"ko": "엑시즈",
+				"es": "Xyz"
 			},
 			"Pendulum": {
 				"cn": "灵摆",
 				"ja": "ペンデュラム",
-				"ko": "펜듈럼"
+				"ko": "펜듈럼",
+				"es": "Péndulo"
 			},
 			"Link": {
 				"cn": "连接",
 				"ja": "リンク",
-				"ko": "링크"
+				"ko": "링크",
+				"es": "Enlace"
 			}
 		}
 
@@ -213,7 +254,7 @@ export default {
 		// 解析请求的URL和查询参数
 		const url = new URL(request.url);
 		const queryParams = new URLSearchParams(url.search);
-		const supportLanguage = ['cn', 'ja', 'ko']
+		const supportLanguage = ['cn', 'ja', 'ko', 'es']
 
 		// 检查language参数是否为cn
 		let language = queryParams.get('language');
@@ -299,10 +340,12 @@ export default {
 
 
 							let newType = typeData[typeline][language]
-							if (newType == null) {
-								changeType.push(typeline)
-							} else {
+
+							if (newType != null && newType !== "N/A") {
 								changeType.push(newType)
+							} else {
+								changeType.push(typeline)
+
 							}
 
 						}
