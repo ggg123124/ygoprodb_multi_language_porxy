@@ -5,247 +5,412 @@ export default {
 				"cn": "水族",
 				"ja": "水族",
 				"ko": "물족",
-				"es": "Aqua"
+				"es": "Aqua",
+				"de": "Aqua",
+				"fr": "Aqua",
+				"it": "Acqua",
+				"pt": "Aqua"
 			},
 			"Beast": {
 				"cn": "兽族",
 				"ja": "獣族",
 				"ko": "야수족",
-				"es": "Bestia"
+				"es": "Bestia",
+				"de": "Ungeheuer",
+				"fr": "Bête",
+				"it": "Bestia",
+				"pt": "Besta"
 			},
 			"Beast-warrior": {
 				"cn": "兽战士族",
 				"ja": "獣戦士族",
 				"ko": "야수전사족",
-				"es": "Guerrero-Bestia"
+				"es": "Guerrero-Bestia",
+				"de": "Ungeheuer-Krieger",
+				"fr": "Bête-Guerrier",
+				"it": "Guerriero-Bestia",
+				"pt": "Besta-Guerreira"
 			},
 			"Creator-god": {
 				"cn": "创造神",
 				"ja": "創造神族",
 				"ko": "창조신족",
-				"es": "N/A" // 原始列表中没有直接对应项
+				"es": "N/A",
+				"de": "N/A",
+				"fr": "N/A",
+				"it": "N/A",
+				"pt": "N/A"
 			},
 			"Cyberse": {
 				"cn": "电子界族",
 				"ja": "サイバース族",
 				"ko": "사이버스족",
-				"es": "Ciberso"
+				"es": "Ciberso",
+				"de": "Cyberse",
+				"fr": "Cyberse",
+				"it": "Cyberso",
+				"pt": "Ciberso"
 			},
+
 			"Dinosaur": {
 				"cn": "恐龙族",
 				"ja": "恐竜族",
 				"ko": "공룡족",
-				"es": "Dinosaurio"
+				"es": "Dinosaurio",
+				"de": "Dinosaurier",
+				"fr": "Dinosaure",
+				"it": "Dinosauro",
+				"pt": "Dinossauro"
 			},
 			"Divine-Beast": {
 				"cn": "幻神兽族",
 				"ja": "幻神獣族",
 				"ko": "환신야수족",
-				"es": "Bestia Divina"
+				"es": "Bestia Divina",
+				"de": "Göttliches Ungeheuer",
+				"fr": "Bête Divine",
+				"it": "Divinità-Bestia",
+				"pt": "Besta Divina"
 			},
 			"Dragon": {
 				"cn": "龙族",
 				"ja": "ドラゴン族",
 				"ko": "드래곤족",
-				"es": "Dragón"
+				"es": "Dragón",
+				"de": "Drache",
+				"fr": "Dragon",
+				"it": "Drago",
+				"pt": "Dragão"
 			},
 			"Fairy": {
 				"cn": "天使族",
 				"ja": "天使族",
 				"ko": "천사족",
-				"es": "Hada"
+				"es": "Hada",
+				"de": "Elfe",
+				"fr": "Elfe",
+				"it": "Fata",
+				"pt": "Fada"
 			},
 			"Fiend": {
 				"cn": "恶魔族",
 				"ja": "悪魔族",
 				"ko": "악마족",
-				"es": "Demonio"
+				"es": "Demonio",
+				"de": "Unterweltler",
+				"fr": "Démon",
+				"it": "Demone",
+				"pt": "Demônio"
 			},
 			"Fish": {
 				"cn": "鱼族",
 				"ja": "魚族",
 				"ko": "어류족",
-				"es": "Pez"
+				"es": "Pez",
+				"de": "Fisch",
+				"fr": "Poisson",
+				"it": "Pesce",
+				"pt": "Peixe"
 			},
 			"Insect": {
 				"cn": "昆虫族",
 				"ja": "昆虫族",
 				"ko": "곤충족",
-				"es": "Insecto"
+				"es": "Insecto",
+				"de": "Insekt",
+				"fr": "Insecte",
+				"it": "Insetto",
+				"pt": "Inseto"
 			},
 			"Machine": {
 				"cn": "机械族",
 				"ja": "機械族",
 				"ko": "기계족",
-				"es": "Máquina"
+				"es": "Máquina",
+				"de": "Maschine",
+				"fr": "Machine",
+				"it": "Macchina",
+				"pt": "Máquina"
 			},
 			"Plant": {
 				"cn": "植物族",
 				"ja": "植物族",
 				"ko": "식물족",
-				"es": "Planta"
+				"es": "Planta",
+				"de": "Pflanze",
+				"fr": "Plante",
+				"it": "Pianta",
+				"pt": "Planta"
 			},
 			"Psychic": {
 				"cn": "念动力族",
 				"ja": "サイキック族",
 				"ko": "사이킥족",
-				"es": "Psíquico"
+				"es": "Psíquico",
+				"de": "Psi",
+				"fr": "Psychique",
+				"it": "Psichico",
+				"pt": "Psíquico"
 			},
 			"Pyro": {
 				"cn": "炎族",
 				"ja": "炎族",
 				"ko": "화염족",
-				"es": "Piro"
+				"es": "Piro",
+				"de": "Pyro",
+				"fr": "Pyro",
+				"it": "Pyro",
+				"pt": "Piro"
 			},
 			"Reptile": {
 				"cn": "爬虫类族",
 				"ja": "爬虫類族",
 				"ko": "파충류족",
-				"es": "Reptil"
+				"es": "Reptil",
+				"de": "Reptil",
+				"fr": "Reptile",
+				"it": "Rettile",
+				"pt": "Réptil"
 			},
 			"Rock": {
 				"cn": "岩石族",
 				"ja": "岩石族",
 				"ko": "암석족",
-				"es": "Roca"
+				"es": "Roca",
+				"de": "Fels",
+				"fr": "Rocher",
+				"it": "Roccia",
+				"pt": "Rocha"
 			},
 			"Sea Serpent": {
 				"cn": "海龙族",
 				"ja": "海竜族",
 				"ko": "해룡족",
-				"es": "Serpiente Marina"
+				"es": "Serpiente Marina",
+				"de": "Seeschlange",
+				"fr": "Serpent de Mer",
+				"it": "Serpente Marino",
+				"pt": "Serpente Marinha"
 			},
 			"Spellcaster": {
 				"cn": "魔法使族",
 				"ja": "魔法使い族",
 				"ko": "마법사족",
-				"es": "Lanzador de Conjuros"
+				"es": "Lanzador de Conjuros",
+				"de": "Hexer",
+				"fr": "Magicien",
+				"it": "Incantatore",
+				"pt": "Mago"
 			},
 			"Thunder": {
 				"cn": "雷族",
 				"ja": "雷族",
 				"ko": "번개족",
-				"es": "Trueno"
+				"es": "Trueno",
+				"de": "Donner",
+				"fr": "Tonnerre",
+				"it": "Tuono",
+				"pt": "Trovão"
 			},
 			"Warrior": {
 				"cn": "战士族",
 				"ja": "戦士族",
 				"ko": "전사족",
-				"es": "Guerrero"
+				"es": "Guerrero",
+				"de": "Krieger",
+				"fr": "Guerrier",
+				"it": "Guerriero",
+				"pt": "Guerreiro"
 			},
 			"Winged Beast": {
 				"cn": "鸟兽族",
 				"ja": "鳥獣族",
 				"ko": "비행야수족",
-				"es": "Bestia Alada"
+				"es": "Bestia Alada",
+				"de": "Geflügeltes Ungeheuer",
+				"fr": "Bête Ailée",
+				"it": "Bestia Alata",
+				"pt": "Besta Alada"
 			},
 			"Wyrm": {
 				"cn": "幻龙族",
 				"ja": "幻竜族",
 				"ko": "환룡족",
-				"es": "Wyrm"
+				"es": "Wyrm",
+				"de": "Wyrm",
+				"fr": "Wyrm",
+				"it": "Wyrm",
+				"pt": "Wyrm"
 			},
 			"Zombie": {
 				"cn": "不死族",
 				"ja": "アンデット族",
 				"ko": "언데드족",
-				"es": "Zombi"
-			},
-			"Tuner": {
-				"cn": "调整",
-				"ja": "チューナー",
-				"ko": "튜너",
-				"es": "Cantante" // 请注意，“Cantante”在原列表中意为“歌手”，这里可能是根据上下文进行了最接近的匹配。
-			},
-			"Illusion": {
-				"cn": "幻想魔族",
-				"ja": "幻想魔族",
-				"ko": "환상마족",
-				"es": "Ilusión"
-			},
-			"Gemini": {
-				"cn": "二重",
-				"ja": "デュアル",
-				"ko": "듀얼",
-				"es": "Géminis"
-			},
-			"Flip": {
-				"cn": "反转",
-				"ja": "リバース",
-				"ko": "리버스",
-				"es": "Volteo"
-			},
-			"Toon": {
-				"cn": "卡通",
-				"ja": "トゥーン",
-				"ko": "툰",
-				"es": "Toon"
-			},
-			"Spirit": {
-				"cn": "灵魂",
-				"ja": "スピリット",
-				"ko": "스피릿",
-				"es": "Spirit" // 注意：这与英文相同，可能需要确认是否准确或有对应的西班牙语术语。
-			},
-			"Union": {
-				"cn": "同盟",
-				"ja": "ユニオン",
-				"ko": "유니온",
-				"es": "Unión"
+				"es": "Zombi",
+				"de": "Zombie",
+				"fr": "Zombie",
+				"it": "Zombie",
+				"pt": "Zumbi"
 			},
 			"Special Summon": {
 				"cn": "特殊召唤",
 				"ja": "特殊召喚",
 				"ko": "특수 소환",
-				"es": "N/A" // 原始列表中没有直接对应项
+				"es": "N/A",// 原始列表中没有直接对应项
+				"de": "N/A",
+				"fr": "N/A",
+				"it": "N/A",
+				"pt": "N/A"
+			},
+			"Tuner": {
+				"cn": "调整",
+				"ja": "チューナー",
+				"ko": "튜너",
+				"es": "Cantante", // 注意：此翻译可能需要根据上下文确认或更正
+				"de": "Empfänger", // 同上
+				"fr": "Syntoniseur",
+				"it": "Tuner",
+				"pt": "Regulador"
+			},
+			"Illusion": {
+				"cn": "幻想魔族",
+				"ja": "幻想魔族",
+				"ko": "환상마족",
+				"es": "Ilusión",
+				"de": "Illusion",
+				"fr": "Illusion",
+				"it": "Illusione",
+				"pt": "Ilusão"
+			},
+			"Gemini": {
+				"cn": "二重",
+				"ja": "デュアル",
+				"ko": "듀얼",
+				"es": "Gémeos",
+				"de": "Zwilling",
+				"fr": "Gémeau",
+				"it": "Gemello",
+				"pt": "Gêmeos"
+			},
+			"Flip": {
+				"cn": "反转",
+				"ja": "リバース",
+				"ko": "리버스",
+				"es": "Volteo",
+				"de": "Flipp",
+				"fr": "Flip",
+				"it": "Scoperta",
+				"pt": "Virar"
+			},
+			"Toon": {
+				"cn": "卡通",
+				"ja": "トゥーン",
+				"ko": "툰",
+				"es": "Toon",
+				"de": "Toon",
+				"fr": "Toon",
+				"it": "Toon",
+				"pt": "Toon"
+			},
+			"Spirit": {
+				"cn": "灵魂",
+				"ja": "スピリット",
+				"ko": "스피릿",
+				"es": "Spirit", // 注意：此翻译可能需要根据上下文确认或更正
+				"de": "Spirit", // 同上
+				"fr": "Spirit", // 同上
+				"it": "Spirit", // 同上
+				"pt": "Espírito"
+			},
+			"Union": {
+				"cn": "同盟",
+				"ja": "ユニオン",
+				"ko": "유니온",
+				"es": "Unión",
+				"de": "Union",
+				"fr": "Union",
+				"it": "Unione",
+				"pt": "União"
 			},
 			"Normal": {
 				"cn": "通常",
 				"ja": "通常",
 				"ko": "일반",
-				"es": "Normal"
+				"es": "Normal",
+				"de": "Normale",
+				"fr": "Normal",
+				"it": "Normale",
+				"pt": "Normal"
 			},
 			"Effect": {
 				"cn": "效果",
 				"ja": "効果",
 				"ko": "효과",
-				"es": "Efecto"
+				"es": "Efecto",
+				"de": "Effekt",
+				"fr": "Effet",
+				"it": "Effetto",
+				"pt": "Efeito"
 			},
 			"Fusion": {
 				"cn": "融合",
 				"ja": "融合",
 				"ko": "융합",
-				"es": "Fusión"
+				"es": "Fusión",
+				"de": "Fusion",
+				"fr": "Fusion",
+				"it": "Fusione",
+				"pt": "Fusão"
 			},
 			"Ritual": {
 				"cn": "仪式",
 				"ja": "儀式",
 				"ko": "의식",
-				"es": "Ritual"
+				"es": "Ritual",
+				"de": "Ritual",
+				"fr": "Rituel",
+				"it": "Rituale",
+				"pt": "Ritual"
 			},
 			"Synchro": {
 				"cn": "同调",
 				"ja": "シンクロ",
 				"ko": "싱크로",
-				"es": "Sincronía"
+				"es": "Sincronía",
+				"de": "Synchron",
+				"fr": "Synchro",
+				"it": "Synchro",
+				"pt": "Sincro"
 			},
 			"Xyz": {
 				"cn": "超量",
 				"ja": "エクシーズ",
 				"ko": "엑시즈",
-				"es": "Xyz"
+				"es": "Xyz",
+				"de": "Xyz",
+				"fr": "Xyz",
+				"it": "Xyz",
+				"pt": "Xyz"
 			},
 			"Pendulum": {
 				"cn": "灵摆",
 				"ja": "ペンデュラム",
 				"ko": "펜듈럼",
-				"es": "Péndulo"
+				"es": "Péndulo",
+				"de": "Pendel",
+				"fr": "Pendule",
+				"it": "Pendulum",
+				"pt": "Pêndulo"
 			},
 			"Link": {
 				"cn": "连接",
 				"ja": "リンク",
 				"ko": "링크",
-				"es": "Enlace"
+				"es": "Enlace",
+				"de": "Link",
+				"fr": "Lien",
+				"it": "Link",
+				"pt": "Link"
 			}
 		}
 
@@ -280,56 +445,57 @@ export default {
 			// 解析返回的JSON数据
 			const data = await response.json();
 
-			// 如果language不是cn，直接返回数据
-			if (!supportLanguage.includes(language)) {
-				return new Response(JSON.stringify(data), {
-					headers: { 'Content-Type': 'application/json' },
-				});
+			if (supportLanguage.includes(language)) {
+				// 如果language是cn，遍历data数组，查询数据库并替换name和desc
+				if (data.data && Array.isArray(data.data)) {
+					for (const card of data.data) {
+
+						const dbResult = await env.DB.prepare(
+							'SELECT name, desc FROM multi_language_card_v2 WHERE card_id = ? AND language = ?'
+						)
+							.bind(card.id, language)
+							.first();
+
+						if (dbResult) {
+							card.name = dbResult.name; // 替换name
+							card.desc = dbResult.desc; // 替换desc
+						}
+						//如果数据库里没数据的话
+						else {
+							let data = null
+							if (language === 'cn') {
+								data = await this.fetchAndExtractCardInfo(card.id, request)
+							} else {
+								if (card.misc_info[0].konami_id == null) {
+
+									let test = await this.fetchAndExtractCardInfo(card.id, request)
+									card.misc_info[0].konami_id = test.konamiId
+
+								}
+								if (card.misc_info[0].konami_id != null) {
+									data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, language)
+								}
+
+							}
+							// console.log(data)
+							if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
+								card.name = data.cardName
+								card.desc = data.dest
+								await env.DB.prepare(
+									"INSERT INTO multi_language_card_v2 ( card_id, name, desc, language) VALUES (?, ?, ?, ?)"
+								).bind(card.id, card.name, card.desc, language).run()
+							}
+
+
+						}
+
+
+					}
+				}
 			}
 
-
-			// 如果language是cn，遍历data数组，查询数据库并替换name和desc
 			if (data.data && Array.isArray(data.data)) {
 				for (const card of data.data) {
-
-					const dbResult = await env.DB.prepare(
-						'SELECT name, desc FROM multi_language_card_v2 WHERE card_id = ? AND language = ?'
-					)
-						.bind(card.id, language)
-						.first();
-
-					if (dbResult) {
-						card.name = dbResult.name; // 替换name
-						card.desc = dbResult.desc; // 替换desc
-					}
-					//如果数据库里没数据的话
-					else {
-						let data = null
-						if (language === 'cn') {
-							data = await this.fetchAndExtractCardInfo(card.id, request)
-						} else {
-							if (card.misc_info[0].konami_id == null) {
-
-								let test = await this.fetchAndExtractCardInfo(card.id, request)
-								card.misc_info[0].konami_id = test.konamiId
-
-							}
-							if (card.misc_info[0].konami_id != null) {
-								data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, language)
-							}
-
-						}
-						// console.log(data)
-						if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
-							card.name = data.cardName
-							card.desc = data.dest
-							await env.DB.prepare(
-								"INSERT INTO multi_language_card_v2 ( card_id, name, desc, language) VALUES (?, ?, ?, ?)"
-							).bind(card.id, card.name, card.desc, language).run()
-						}
-
-
-					}
 					let changeType = []
 					if ("typeline" in card) {
 						for (let typeline of card.typeline) {
@@ -339,7 +505,7 @@ export default {
 							}
 
 
-							let newType = typeData[typeline][language]
+							let newType = typeData?.[typeline]?.[language];
 
 							if (newType != null && newType !== "N/A") {
 								changeType.push(newType)
@@ -352,9 +518,11 @@ export default {
 
 						card.typeline = changeType
 					}
-
 				}
 			}
+
+
+
 
 			// 返回修改后的数据
 			return new Response(JSON.stringify(data), {
