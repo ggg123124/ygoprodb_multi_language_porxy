@@ -615,7 +615,7 @@ export default {
 
 				// 匹配 CardText 部分（跳过text_title）
 				part2: /<div class="CardText">[\s\S]*?<div class="item_box_text">[\s\S]*?<div class="text_title">[\s\S]*?<\/div>([\s\S]*?)<\/div>/i,
-				part3: /<meta name="keywords"\s+content="([^"]+)"\s*\/?>/i
+				part3: /<meta name="title"\s+content="([^"]+)"\s*\/?>/i
 
 			};
 
@@ -652,7 +652,7 @@ export default {
 				combinedText = ''; // 如果两者都没有数据
 			}
 
-			const pattern = /<meta name="keywords"\s+content="([^"]+)"\s*\/?>/i;
+			const pattern = /<meta name="title"\s+content="([^"]+)"\s*\/?>/i;
 			const match = pattern.exec(html);
 			let firstKeyword = ""
 			if (match) {
@@ -660,12 +660,12 @@ export default {
 				const contentStr = match[1];
 
 				// 使用逗号分割content内容，并获取第一个子字符串
-				firstKeyword = contentStr.split(',')[0].trim();
+				firstKeyword = contentStr.split(' | ')[0].trim();
 			} else {
 				console.log("没有找到匹配的meta标签。");
 			}
 			console.log(firstKeyword)
-			firstKeyword = firstKeyword.replaceAll(";nica","")
+			// firstKeyword = firstKeyword.replaceAll(";nica","")
 			// console.log('处理后的文本内容：\n');
 			console.log(combinedText);
 			return {
