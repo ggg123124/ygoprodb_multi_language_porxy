@@ -655,7 +655,7 @@ export default {
 		}
 	},
 	async fetchAndExtractCardInfo(searchParam, request) {
-
+		console.log(searchParam)
 		// 构建请求的 URL
 		const url = `https://ygocdb.com/card/${encodeURIComponent(searchParam)}`;
 		let cardName;
@@ -667,7 +667,7 @@ export default {
 			const response = await fetch(url, {
 				headers: request.headers,
 			});
-			console.log("断言3")
+			
 
 
 
@@ -680,9 +680,12 @@ export default {
 			const pattern = /<h2><span lang="zh-Hans">(.*?)<\/span>/;
 			const konamiIdPattern = /<span class="cid text-muted" title="数据库编号">(.*?)<\/span>/
 			const konamiIdMatch = htmlString.match(konamiIdPattern)
+			
 			if (konamiIdMatch) {
 				konamiId = konamiIdMatch[1]
 				console.log(konamiId); // 输出: 篝火
+			}else{
+				return this.fetchAndExtractCardInfo(searchParam-1,request)
 			}
 
 			const match = htmlString.match(pattern);
