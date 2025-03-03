@@ -1,5 +1,75 @@
 export default {
 	async fetch(request, env, ctx) {
+		const url = new URL(request.url);
+		const path = url.pathname;
+
+		// 处理 /getSimpleData 接口
+		if (path === '/getSimpleData') {
+			return this.handleGetSimpleData(request, env);
+		}
+
+		// 原有的 fetch 逻辑
+		return this.handleOriginalFetch(request, env, ctx);
+
+	},
+	async handleGetSimpleData(request, env) {
+		const url = new URL(request.url);
+		const queryParams = new URLSearchParams(url.search);
+		const id = queryParams.get('id');
+		const language = queryParams.get('language');
+
+		if (!id || !language) {
+			return new Response('Missing id or language parameter', { status: 400 });
+		}
+
+		// 尝试从数据库中查询
+		const dbResult = await env.DB.prepare(
+			'SELECT name, desc FROM multi_language_card_v2 WHERE card_id = ? AND language = ?'
+		)
+			.bind(id, language)
+			.first();
+
+		if (dbResult) {
+			// 如果数据库中有数据，直接返回
+			return new Response(JSON.stringify({ name: dbResult.name, desc: dbResult.desc }), {
+				headers: { 'Content-Type': 'application/json' },
+			});
+		}
+
+		// 如果数据库中没有数据，按照原有逻辑请求数据并缓存
+		let data = null;
+		if (language === 'cn') {
+			data = await this.fetchAndExtractCardInfo(id, request);
+		} else {
+			// 获取卡片的 konami_id
+			const cardInfo = await this.fetchCardInfoFromYGODeck(id);
+			if (cardInfo && cardInfo.misc_info && cardInfo.misc_info[0] && cardInfo.misc_info[0].konami_id) {
+				data = await this.fetchAndProcessCardText(cardInfo.misc_info[0].konami_id, language);
+			}
+		}
+
+		if (data && data.cardName && data.dest) {
+			// 缓存到数据库
+			await env.DB.prepare(
+				"INSERT INTO multi_language_card_v2 (card_id, name, desc, language) VALUES (?, ?, ?, ?)"
+			).bind(id, data.cardName, data.dest, language).run();
+
+			// 返回数据
+			return new Response(JSON.stringify({ name: data.cardName, desc: data.dest }), {
+				headers: { 'Content-Type': 'application/json' },
+			});
+		}
+
+		// 如果没有找到数据，返回错误
+		return new Response('Card not found', { status: 404 });
+	},
+	async fetchCardInfoFromYGODeck(id) {
+		const targetUrl = `https://db.ygoprodeck.com/api/v7/cardinfo.php?id=${id}&misc=yes`;
+		const response = await fetch(targetUrl);
+		const data = await response.json();
+		return data.data && data.data[0] ? data.data[0] : null;
+	},
+	async handleOriginalFetch(request, env, ctx) {
 		let typeData = {
 			"Aqua": {
 				"cn": "水族",
@@ -35,11 +105,11 @@ export default {
 				"cn": "创造神",
 				"ja": "創造神族",
 				"ko": "창조신족",
-				"es": "N/A",
-				"de": "N/A",
-				"fr": "N/A",
-				"it": "N/A",
-				"pt": "N/A"
+				"es": "Creator-god",
+				"de": "Creator-god",
+				"fr": "Creator-god",
+				"it": "Creator-god",
+				"pt": "Creator-god"
 			},
 			"Cyberse": {
 				"cn": "电子界族",
@@ -534,7 +604,6 @@ export default {
 				status: 500,
 			});
 		}
-
 	},
 	async fetchAndExtractCardInfo(searchParam, request) {
 
