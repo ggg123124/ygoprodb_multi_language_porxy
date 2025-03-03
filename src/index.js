@@ -14,6 +14,9 @@ export default {
 		return this.handleOriginalFetch(request, env, ctx);
 
 	},
+	async handleSaveCache(request, env) {
+		
+	},
 	async handleBuildSimpleDataCache(request, env) {
 		const url = new URL(request.url);
 		const queryParams = new URLSearchParams(url.search);
@@ -116,7 +119,7 @@ export default {
 		const targetUrl = `https://db.ygoprodeck.com/api/v7/cardinfo.php?id=${id}&misc=yes`;
 		const response = await fetch(targetUrl);
 		const data = await response.json();
-		return data.data && data.data[0] ? data.data[0] : null;
+		return data.data && data.data[0] ? data.data[0] : await this.fetchAndExtractCardInfo(id, request).konamiId;
 	},
 	async handleOriginalFetch(request, env, ctx) {
 		let typeData = {
