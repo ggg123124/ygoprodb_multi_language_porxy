@@ -15,7 +15,7 @@ export default {
 
 	},
 	async handleSaveCache(request, env) {
-		
+
 	},
 	async handleBuildSimpleDataCache(request, env) {
 		const url = new URL(request.url);
@@ -549,10 +549,7 @@ export default {
 			language = language.toLowerCase();
 		}
 
-
-		if (supportLanguage.includes(language)) {
-			queryParams.delete('language'); // 移除language参数
-		}
+		queryParams.delete('language')
 
 		// 构造目标URL
 		const targetUrl = `https://db.ygoprodeck.com/api/v7/cardinfo.php?${queryParams.toString()}&misc=yes`;
@@ -567,81 +564,95 @@ export default {
 			// 解析返回的JSON数据
 			const data = await response.json();
 
-			if (supportLanguage.includes(language)) {
-				// 如果language是cn，遍历data数组，查询数据库并替换name和desc
+			let languages = language.split(",")
+
+			for (let i = 0; i < languages.length; i++) {
+				let element = languages[i]
+				if (supportLanguage.includes(element)) {
+
+					// 如果language是cn，遍历data数组，查询数据库并替换name和desc
+					if (data.data && Array.isArray(data.data)) {
+						for (let card of data.data) {
+
+							const dbResult = await env.DB.prepare(
+								'SELECT name, desc FROM multi_language_card_v2 WHERE card_id = ? AND language = ?'
+							)
+								.bind(card.id, element)
+								.first();
+							card[element] = {}
+							if (dbResult) {
+								card[element].name = dbResult.name;
+								card[element].desc = dbResult.desc;
+								// card.name = dbResult.name; // 替换name
+								// card.desc = dbResult.desc; // 替换desc
+							}
+							//如果数据库里没数据的话
+							else {
+								let data = null
+								if (language === 'cn') {
+									data = await this.fetchAndExtractCardInfo(card.id, request)
+								} else {
+									if (card.misc_info[0].konami_id == null) {
+
+										let test = await this.fetchAndExtractCardInfo(card.id, request)
+										card.misc_info[0].konami_id = test.konamiId
+
+									}
+									if (card.misc_info[0].konami_id != null) {
+										data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, language)
+									}
+
+								}
+								// console.log(data)
+								if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
+									card[element].name = data.cardName;
+									card[element].desc = data.dest;
+									// card.name = data.cardName
+									// card.desc = data.dest
+									await env.DB.prepare(
+										"INSERT INTO multi_language_card_v2 ( card_id, name, desc, language) VALUES (?, ?, ?, ?)"
+									).bind(card.id, card[element].name, card[element].desc, element).run()
+								}
+
+
+							}
+
+
+						}
+					}
+				}
+
 				if (data.data && Array.isArray(data.data)) {
 					for (const card of data.data) {
-
-						const dbResult = await env.DB.prepare(
-							'SELECT name, desc FROM multi_language_card_v2 WHERE card_id = ? AND language = ?'
-						)
-							.bind(card.id, language)
-							.first();
-
-						if (dbResult) {
-							card.name = dbResult.name; // 替换name
-							card.desc = dbResult.desc; // 替换desc
-						}
-						//如果数据库里没数据的话
-						else {
-							let data = null
-							if (language === 'cn') {
-								data = await this.fetchAndExtractCardInfo(card.id, request)
-							} else {
-								if (card.misc_info[0].konami_id == null) {
-
-									let test = await this.fetchAndExtractCardInfo(card.id, request)
-									card.misc_info[0].konami_id = test.konamiId
-
+						let changeType = []
+						if ("typeline" in card) {
+							for (let typeline of card.typeline) {
+								if (typeline === "Pendulum" && card.desc.indexOf("\r\n\r\n") != -1) {
+									card[element].pend_desc = card[element].desc.split('\r\n\r\n')[0]
+									card[element].monster_desc = card[element].desc.split('\r\n\r\n')[1]
 								}
-								if (card.misc_info[0].konami_id != null) {
-									data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, language)
+
+
+								let newType = typeData?.[typeline]?.[element];
+
+								if (newType != null && newType !== "N/A") {
+									changeType.push(newType)
+								} else {
+									changeType.push(typeline)
+
 								}
 
 							}
-							// console.log(data)
-							if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
-								card.name = data.cardName
-								card.desc = data.dest
-								await env.DB.prepare(
-									"INSERT INTO multi_language_card_v2 ( card_id, name, desc, language) VALUES (?, ?, ?, ?)"
-								).bind(card.id, card.name, card.desc, language).run()
-							}
 
-
+							card[element].typeline = changeType
 						}
-
-
 					}
 				}
 			}
 
-			if (data.data && Array.isArray(data.data)) {
-				for (const card of data.data) {
-					let changeType = []
-					if ("typeline" in card) {
-						for (let typeline of card.typeline) {
-							if (typeline === "Pendulum" && card.desc.indexOf("\r\n\r\n") != -1) {
-								card.pend_desc = card.desc.split('\r\n\r\n')[0]
-								card.monster_desc = card.desc.split('\r\n\r\n')[1]
-							}
 
 
-							let newType = typeData?.[typeline]?.[language];
 
-							if (newType != null && newType !== "N/A") {
-								changeType.push(newType)
-							} else {
-								changeType.push(typeline)
-
-							}
-
-						}
-
-						card.typeline = changeType
-					}
-				}
-			}
 
 
 
@@ -670,7 +681,7 @@ export default {
 			const response = await fetch(url, {
 				headers: request.headers,
 			});
-			
+
 
 
 
@@ -683,12 +694,12 @@ export default {
 			const pattern = /<h2><span lang="zh-Hans">(.*?)<\/span>/;
 			const konamiIdPattern = /<span class="cid text-muted" title="数据库编号">(.*?)<\/span>/
 			const konamiIdMatch = htmlString.match(konamiIdPattern)
-			
+
 			if (konamiIdMatch) {
 				konamiId = konamiIdMatch[1]
 				console.log(konamiId); // 输出: 篝火
-			}else{
-				return this.fetchAndExtractCardInfo(searchParam-1,request)
+			} else {
+				return this.fetchAndExtractCardInfo(searchParam - 1, request)
 			}
 
 			const match = htmlString.match(pattern);
