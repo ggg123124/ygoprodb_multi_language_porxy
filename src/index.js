@@ -581,6 +581,7 @@ export default {
 								.first();
 							card[element] = {}
 							if (dbResult) {
+
 								card[element].name = dbResult.name;
 								card[element].desc = dbResult.desc;
 								// card.name = dbResult.name; // 替换name
@@ -605,6 +606,7 @@ export default {
 								}
 								// console.log(data)
 								if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
+
 									card[element].name = data.cardName;
 									card[element].desc = data.dest;
 									// card.name = data.cardName
@@ -645,9 +647,18 @@ export default {
 							}
 
 							card[element].typeline = changeType
+							if (languages.length == 1) {
+								card.name = card[element].name
+								card.desc = card[element].desc
+								card.typeline = card[element].typeline
+								card.pend_desc = card[element].pend_desc
+								card.monster_desc = card[element].monster_desc
+							}
 						}
 					}
 				}
+
+			
 			}
 
 
