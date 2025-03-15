@@ -646,19 +646,20 @@ export default {
 
 							}
 
-							card[element].typeline = changeType
-							if (languages.length == 1) {
-								card.name = card[element].name
-								card.desc = card[element].desc
-								card.typeline = card[element].typeline
-								card.pend_desc = card[element].pend_desc
-								card.monster_desc = card[element].monster_desc
-							}
+
+						}
+						card[element].typeline = changeType
+						if (languages.length == 1) {
+							card.name = card[element].name
+							card.desc = card[element].desc
+							card.typeline = card[element].typeline
+							card.pend_desc = card[element].pend_desc
+							card.monster_desc = card[element].monster_desc
 						}
 					}
 				}
 
-			
+
 			}
 
 
