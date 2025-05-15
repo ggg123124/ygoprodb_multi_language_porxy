@@ -42,10 +42,10 @@ export default {
 		// 如果数据库中没有数据，按照原有逻辑请求数据并缓存
 		let data = null;
 		if (language === 'cn') {
-			data = await this.fetchAndExtractCardInfo(id, request);
+			data = await this.fetchAndExtractCardInfo(id, request,10);
 		} else {
 			// 获取卡片的 konami_id
-			const cardInfo = await this.fetchCardInfoFromYGODeck(id);
+			const cardInfo = await this.fetchCarrdInfoFromYGODeck(id,request);
 			if (cardInfo && cardInfo.misc_info && cardInfo.misc_info[0] && cardInfo.misc_info[0].konami_id) {
 				data = await this.fetchAndProcessCardText(cardInfo.misc_info[0].konami_id, language);
 			}
@@ -91,10 +91,10 @@ export default {
 		// 如果数据库中没有数据，按照原有逻辑请求数据并缓存
 		let data = null;
 		if (language === 'cn') {
-			data = await this.fetchAndExtractCardInfo(id, request);
+			data = await this.fetchAndExtractCardInfo(id, request,10);
 		} else {
 			// 获取卡片的 konami_id
-			const cardInfo = await this.fetchCardInfoFromYGODeck(id);
+			const cardInfo = await this.fetchCarrdInfoFromYGODeck(id,request);
 			if (cardInfo && cardInfo.misc_info && cardInfo.misc_info[0] && cardInfo.misc_info[0].konami_id) {
 				data = await this.fetchAndProcessCardText(cardInfo.misc_info[0].konami_id, language);
 			}
@@ -115,11 +115,18 @@ export default {
 		// 如果没有找到数据，返回错误
 		return new Response('Card not found', { status: 404 });
 	},
-	async fetchCardInfoFromYGODeck(id) {
+	async fetchCarrdInfoFromYGODeck(id,request) {
 		const targetUrl = `https://db.ygoprodeck.com/api/v7/cardinfo.php?id=${id}&misc=yes`;
 		const response = await fetch(targetUrl);
 		const data = await response.json();
-		return data.data && data.data[0] ? data.data[0] : await this.fetchAndExtractCardInfo(id, request).konamiId;
+		if(data.data && data.data[0]&&data.data[0].misc_info[0]&&data.data[0].misc_info[0].konami_id){
+			return data.data[0]
+		}else{
+			let baigedata = await this.fetchAndExtractCardInfo(id, request,10)
+			data.data[0].misc_info[0].konami_id = baigedata.konamiId
+			return data.data[0]
+		}
+		// return data.data && data.data[0]&&data.data[0].misc_info[0]&&data.data[0].misc_info[0].konami_id ? data.data[0] : await this.fetchAndExtractCardInfo(id, request).konamiId;
 	},
 	async handleOriginalFetch(request, env, ctx) {
 		let typeData = {
@@ -378,11 +385,11 @@ export default {
 				"cn": "特殊召唤",
 				"ja": "特殊召喚",
 				"ko": "특수 소환",
-				"es": "N/A",// 原始列表中没有直接对应项
-				"de": "N/A",
-				"fr": "N/A",
-				"it": "N/A",
-				"pt": "N/A"
+				"es": "Special Summon",
+				"de": "Special Summon",
+				"fr": "Special Summon",
+				"it": "Special Summon",
+				"pt": "Special Summon"
 			},
 			"Tuner": {
 				"cn": "调整",
@@ -591,11 +598,11 @@ export default {
 							else {
 								let data = null
 								if (language === 'cn') {
-									data = await this.fetchAndExtractCardInfo(card.id, request)
+									data = await this.fetchAndExtractCardInfo(card.id, request,10)
 								} else {
 									if (card.misc_info[0].konami_id == null) {
 
-										let test = await this.fetchAndExtractCardInfo(card.id, request)
+										let test = await this.fetchAndExtractCardInfo(card.id, request,10)
 										card.misc_info[0].konami_id = test.konamiId
 
 									}
@@ -612,8 +619,8 @@ export default {
 									// card.name = data.cardName
 									// card.desc = data.dest
 									await env.DB.prepare(
-										"INSERT INTO multi_language_card_v2 ( card_id, name, desc, language) VALUES (?, ?, ?, ?)"
-									).bind(card.id, card[element].name, card[element].desc, element).run()
+										"INSERT INTO multi_language_card_v2 ( card_id, name, desc, language,typeline) VALUES (?, ?, ?, ?,?)"
+									).bind(card.id, card[element].name, card[element].desc, element,null).run()
 								}
 
 
@@ -629,7 +636,7 @@ export default {
 						let changeType = []
 						if ("typeline" in card) {
 							for (let typeline of card.typeline) {
-								if (typeline === "Pendulum" && card.desc.indexOf("\r\n\r\n") != -1) {
+								if (typeline === "Pendulum" && card.desc.indexOf("[ Pendulum Effect ] ") != -1) {
 									card[element].pend_desc = card[element].desc.split('\r\n\r\n')[0]
 									card[element].monster_desc = card[element].desc.split('\r\n\r\n')[1]
 								}
@@ -680,7 +687,7 @@ export default {
 			});
 		}
 	},
-	async fetchAndExtractCardInfo(searchParam, request) {
+	async fetchAndExtractCardInfo(searchParam, request,last) {
 		console.log(searchParam)
 		// 构建请求的 URL
 		const url = `https://ygocdb.com/card/${encodeURIComponent(searchParam)}`;
@@ -710,8 +717,10 @@ export default {
 			if (konamiIdMatch) {
 				konamiId = konamiIdMatch[1]
 				console.log(konamiId); // 输出: 篝火
-			} else {
-				return this.fetchAndExtractCardInfo(searchParam - 1, request)
+			} else if(last>0){
+				last-=1
+				return this.fetchAndExtractCardInfo(searchParam - 1, request,last)
+				// return null
 			}
 
 			const match = htmlString.match(pattern);
@@ -778,6 +787,31 @@ export default {
 					.replace(/&nbsp;/g, ' ')    // 处理空格实体
 					.trim();
 			};
+			// 新增类型提取逻辑
+			const extractTypeline = () => {
+				const speciesMatch = html.match(/<p class="species">([\s\S]*?)<\/p>/i);
+				const typeline = [];
+
+				if (speciesMatch) {
+					// 提取全部span内容
+					const spanRegex = /<span>([^<]+)<\/span>/gi;
+					let spanMatch;
+
+					while ((spanMatch = spanRegex.exec(speciesMatch[1])) !== null) {
+						const text = spanMatch[1].trim();
+
+						// 跳过分隔符
+						if (text === '／') continue;
+
+						// 处理复合类型（包含斜杠的情况）
+						const parts = text.split('／')
+							.map(p => p.trim())
+							.filter(p => p.length > 0);
+						typeline.push(...parts);
+					}
+				}
+				return typeline;
+			};
 
 			// 提取两部分内容
 			const [part1, part2] = [
@@ -817,7 +851,8 @@ export default {
 			console.log(combinedText);
 			return {
 				cardName: firstKeyword,
-				dest: combinedText
+				dest: combinedText,
+				typeline: extractTypeline()
 			};
 
 
