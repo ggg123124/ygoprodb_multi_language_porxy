@@ -611,15 +611,18 @@ export default {
 									}
 								}
 								// console.log(data)
-								if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "" && card.name != data.cardName && card.desc != data.dest) {
+								if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
 
 									card[element].name = data.cardName;
 									card[element].desc = data.dest;
 									// card.name = data.cardName
 									// card.desc = data.dest
-									await env.DB.prepare(
-										"INSERT INTO multi_language_card_v2 ( card_id, name, desc, language,typeline) VALUES (?, ?, ?, ?,?)"
-									).bind(card.id, card[element].name, card[element].desc, element, null).run()
+									if (card.name != data.cardName && card.desc != data.dest) {
+										await env.DB.prepare(
+											"INSERT INTO multi_language_card_v2 ( card_id, name, desc, language,typeline) VALUES (?, ?, ?, ?,?)"
+										).bind(card.id, card[element].name, card[element].desc, element, null).run()
+									}
+
 								}
 
 
@@ -665,7 +668,7 @@ export default {
 					}
 				}
 
-			
+
 			}
 
 
