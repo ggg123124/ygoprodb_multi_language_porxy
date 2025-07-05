@@ -42,10 +42,10 @@ export default {
 		// 如果数据库中没有数据，按照原有逻辑请求数据并缓存
 		let data = null;
 		if (language === 'cn') {
-			data = await this.fetchAndExtractCardInfo(id, request,10);
+			data = await this.fetchAndExtractCardInfo(id, request, 10);
 		} else {
 			// 获取卡片的 konami_id
-			const cardInfo = await this.fetchCarrdInfoFromYGODeck(id,request);
+			const cardInfo = await this.fetchCarrdInfoFromYGODeck(id, request);
 			if (cardInfo && cardInfo.misc_info && cardInfo.misc_info[0] && cardInfo.misc_info[0].konami_id) {
 				data = await this.fetchAndProcessCardText(cardInfo.misc_info[0].konami_id, language);
 			}
@@ -91,10 +91,10 @@ export default {
 		// 如果数据库中没有数据，按照原有逻辑请求数据并缓存
 		let data = null;
 		if (language === 'cn') {
-			data = await this.fetchAndExtractCardInfo(id, request,10);
+			data = await this.fetchAndExtractCardInfo(id, request, 10);
 		} else {
 			// 获取卡片的 konami_id
-			const cardInfo = await this.fetchCarrdInfoFromYGODeck(id,request);
+			const cardInfo = await this.fetchCarrdInfoFromYGODeck(id, request);
 			if (cardInfo && cardInfo.misc_info && cardInfo.misc_info[0] && cardInfo.misc_info[0].konami_id) {
 				data = await this.fetchAndProcessCardText(cardInfo.misc_info[0].konami_id, language);
 			}
@@ -115,14 +115,14 @@ export default {
 		// 如果没有找到数据，返回错误
 		return new Response('Card not found', { status: 404 });
 	},
-	async fetchCarrdInfoFromYGODeck(id,request) {
+	async fetchCarrdInfoFromYGODeck(id, request) {
 		const targetUrl = `https://db.ygoprodeck.com/api/v7/cardinfo.php?id=${id}&misc=yes`;
 		const response = await fetch(targetUrl);
 		const data = await response.json();
-		if(data.data && data.data[0]&&data.data[0].misc_info[0]&&data.data[0].misc_info[0].konami_id){
+		if (data.data && data.data[0] && data.data[0].misc_info[0] && data.data[0].misc_info[0].konami_id) {
 			return data.data[0]
-		}else{
-			let baigedata = await this.fetchAndExtractCardInfo(id, request,10)
+		} else {
+			let baigedata = await this.fetchAndExtractCardInfo(id, request, 10)
 			data.data[0].misc_info[0].konami_id = baigedata.konamiId
 			return data.data[0]
 		}
@@ -598,21 +598,20 @@ export default {
 							else {
 								let data = null
 								if (language === 'cn') {
-									data = await this.fetchAndExtractCardInfo(card.id, request,10)
+									data = await this.fetchAndExtractCardInfo(card.id, request, 10)
 								} else {
 									if (card.misc_info[0].konami_id == null) {
 
-										let test = await this.fetchAndExtractCardInfo(card.id, request,10)
+										let test = await this.fetchAndExtractCardInfo(card.id, request, 10)
 										card.misc_info[0].konami_id = test.konamiId
 
 									}
 									if (card.misc_info[0].konami_id != null) {
 										data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, language)
 									}
-
 								}
 								// console.log(data)
-								if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
+								if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "" && card.name != data.cardName && card.desc != data.dest) {
 
 									card[element].name = data.cardName;
 									card[element].desc = data.dest;
@@ -620,7 +619,7 @@ export default {
 									// card.desc = data.dest
 									await env.DB.prepare(
 										"INSERT INTO multi_language_card_v2 ( card_id, name, desc, language,typeline) VALUES (?, ?, ?, ?,?)"
-									).bind(card.id, card[element].name, card[element].desc, element,null).run()
+									).bind(card.id, card[element].name, card[element].desc, element, null).run()
 								}
 
 
@@ -666,7 +665,7 @@ export default {
 					}
 				}
 
-
+			
 			}
 
 
@@ -687,7 +686,8 @@ export default {
 			});
 		}
 	},
-	async fetchAndExtractCardInfo(searchParam, request,last) {
+
+	async fetchAndExtractCardInfo(searchParam, request, last) {
 		console.log(searchParam)
 		// 构建请求的 URL
 		const url = `https://ygocdb.com/card/${encodeURIComponent(searchParam)}`;
@@ -717,9 +717,9 @@ export default {
 			if (konamiIdMatch) {
 				konamiId = konamiIdMatch[1]
 				console.log(konamiId); // 输出: 篝火
-			} else if(last>0){
-				last-=1
-				return this.fetchAndExtractCardInfo(searchParam - 1, request,last)
+			} else if (last > 0) {
+				last -= 1
+				return this.fetchAndExtractCardInfo(searchParam - 1, request, last)
 				// return null
 			}
 
