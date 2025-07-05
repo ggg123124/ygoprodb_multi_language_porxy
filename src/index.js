@@ -597,7 +597,7 @@ export default {
 							//如果数据库里没数据的话
 							else {
 								let data = null
-								if (language === 'cn') {
+								if (element === 'cn') {
 									data = await this.fetchAndExtractCardInfo(card.id, request, 10)
 								} else {
 									if (card.misc_info[0].konami_id == null) {
@@ -607,7 +607,7 @@ export default {
 
 									}
 									if (card.misc_info[0].konami_id != null) {
-										data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, language)
+										data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, element)
 									}
 								}
 								// console.log(data)
