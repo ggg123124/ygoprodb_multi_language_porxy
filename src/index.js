@@ -43,12 +43,16 @@ export default {
 		let data = null;
 		if (language === 'cn') {
 			data = await this.fetchAndExtractCardInfo(id, request, 10);
+			// 如果 cn 没有找到数据，尝试从 excavate.top 获取
+			if (!data || !data.cardName || !data.dest) {
+				data = await this.fetchFromExcavate(id, language);
+			}
 		} else {
 			// 获取卡片的 konami_id
 			const cardInfo = await this.fetchCarrdInfoFromYGODeck(id, request);
-			if (cardInfo && cardInfo.misc_info && cardInfo.misc_info[0] && cardInfo.misc_info[0].konami_id) {
-				data = await this.fetchAndProcessCardText(cardInfo.misc_info[0].konami_id, language);
-			}
+			const konamiId = cardInfo?.misc_info?.[0]?.konami_id || null;
+			// 使用新的多数据源方法
+			data = await this.fetchCardDataFromSources(id, language, konamiId);
 		}
 
 		if (data && data.cardName && data.dest) {
@@ -92,12 +96,16 @@ export default {
 		let data = null;
 		if (language === 'cn') {
 			data = await this.fetchAndExtractCardInfo(id, request, 10);
+			// 如果 cn 没有找到数据，尝试从 excavate.top 获取
+			if (!data || !data.cardName || !data.dest) {
+				data = await this.fetchFromExcavate(id, language);
+			}
 		} else {
 			// 获取卡片的 konami_id
 			const cardInfo = await this.fetchCarrdInfoFromYGODeck(id, request);
-			if (cardInfo && cardInfo.misc_info && cardInfo.misc_info[0] && cardInfo.misc_info[0].konami_id) {
-				data = await this.fetchAndProcessCardText(cardInfo.misc_info[0].konami_id, language);
-			}
+			const konamiId = cardInfo?.misc_info?.[0]?.konami_id || null;
+			// 使用新的多数据源方法
+			data = await this.fetchCardDataFromSources(id, language, konamiId);
 		}
 
 		if (data && data.cardName && data.dest) {
@@ -599,16 +607,19 @@ export default {
 								let data = null
 								if (element === 'cn') {
 									data = await this.fetchAndExtractCardInfo(card.id, request, 10)
+									// 如果 cn 没有找到数据，尝试从 excavate.top 获取
+									if (!data || !data.cardName || !data.dest) {
+										data = await this.fetchFromExcavate(card.id, element)
+									}
 								} else {
-									if (card.misc_info[0].konami_id == null) {
-
+									let konamiId = card.misc_info?.[0]?.konami_id || null;
+									if (konamiId == null) {
 										let test = await this.fetchAndExtractCardInfo(card.id, request, 10)
-										card.misc_info[0].konami_id = test.konamiId
-
+										konamiId = test?.konamiId || null;
+										card.misc_info[0].konami_id = konamiId
 									}
-									if (card.misc_info[0].konami_id != null) {
-										data = await this.fetchAndProcessCardText(card.misc_info[0].konami_id, element)
-									}
+									// 使用新的多数据源方法
+									data = await this.fetchCardDataFromSources(card.id, element, konamiId)
 								}
 								// console.log(data)
 								if (data != null && data.cardName != null && data.cardName != "" && data.dest != null && data.dest != "") {
@@ -852,6 +863,12 @@ export default {
 			// firstKeyword = firstKeyword.replaceAll(";nica","")
 			// console.log('处理后的文本内容：\n');
 			console.log(combinedText);
+			
+			// 如果没有查到有效数据，返回 null
+			if (!firstKeyword || !combinedText) {
+				return null;
+			}
+			
 			return {
 				cardName: firstKeyword,
 				dest: combinedText,
@@ -861,7 +878,87 @@ export default {
 
 		} catch (error) {
 			console.error('处理错误：', error);
-			throw error;
+			return null;
 		}
+	},
+
+	// 从 excavate.top 获取卡片数据
+	async fetchFromExcavate(cardId, language) {
+		console.log('Fetching from excavate.top for card:', cardId, 'language:', language);
+		const targetUrl = `https://www.excavate.top/api/v1/cards?q=pw:${cardId}`;
+
+		try {
+			const response = await fetch(targetUrl);
+			const data = await response.json();
+
+			if (data.cards && data.cards.length > 0) {
+				const card = data.cards[0];
+				
+				// 语言映射：将请求的语言代码映射到 excavate.top 的字段名
+				const langMap = {
+					'cn': 'ja',  // excavate.top 没有 cn，使用 ja 作为备选
+					'ja': 'ja',
+					'ko': 'ko',
+					'es': 'es',
+					'de': 'de',
+					'fr': 'fr',
+					'it': 'it',
+					'pt': 'pt'
+				};
+
+				const langField = langMap[language] || 'en';
+				
+				// 清理 HTML 标签（特别是 ruby 标签）
+				const cleanHtmlTags = (text) => {
+					if (!text) return '';
+					// 先移除 <rt>...</rt> 标签及其内容（注音文本）
+					text = text.replace(/<rt[^>]*>[\s\S]*?<\/rt>/gi, '');
+					// 移除 <rp>...</rp> 标签（ruby 的括号）
+					text = text.replace(/<rp[^>]*>[\s\S]*?<\/rp>/gi, '');
+					// 移除剩余的 HTML 标签，保留内容
+					text = text.replace(/<[^>]+>/g, '');
+					return text.trim();
+				};
+
+				// 获取卡片名称
+				let cardName = cleanHtmlTags(card.name?.[langField] || card.name?.en || '');
+				
+				// 获取卡片描述
+				let desc = card.text?.[langField] || card.text?.en || '';
+
+				if (cardName && desc) {
+					return {
+						cardName: cardName,
+						dest: desc,
+						typeline: card.typeline ? card.typeline.split(' / ') : []
+					};
+				}
+			}
+
+			return null;
+		} catch (error) {
+			console.error('从 excavate.top 获取数据失败:', error);
+			return null;
+		}
+	},
+
+	// 尝试从多个数据源获取卡片数据
+	async fetchCardDataFromSources(cardId, language, konamiId = null) {
+		// 先尝试从 konami 数据库获取
+		if (konamiId) {
+			const data = await this.fetchAndProcessCardText(konamiId, language);
+			if (data && data.cardName && data.dest) {
+				return data;
+			}
+		}
+
+		// 如果 konami 数据库没有数据，尝试从 excavate.top 获取
+		console.log('Konami 数据库未找到数据，尝试从 excavate.top 获取');
+		const excavateData = await this.fetchFromExcavate(cardId, language);
+		if (excavateData && excavateData.cardName && excavateData.dest) {
+			return excavateData;
+		}
+
+		return null;
 	}
 };
